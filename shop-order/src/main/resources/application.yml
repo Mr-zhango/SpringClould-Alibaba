@@ -20,6 +20,11 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+    sentinel:
+      transport:
+        port: 9999                  # 跟控制台交流的端口,随意指定一个未使用的端口即可
+        dashboard: localhost:8080   # 指定控制台服务的地址
+
 
 # 配置ribbon的负载均衡策略
 # 调用的提供者的名称

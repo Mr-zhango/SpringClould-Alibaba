@@ -2,6 +2,7 @@ package cn.myfreecloud.controller;
 
 import cn.myfreecloud.domain.Order;
 import cn.myfreecloud.domain.Product;
+import cn.myfreecloud.feign.ProductService;
 import cn.myfreecloud.service.OrderService;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,9 @@ public class OrderController {
     @Autowired
     private DiscoveryClient discoveryClient;
 
+    @Autowired
+    private ProductService productService;
+
 
     // 下单
     @RequestMapping("/order/product/{pid}")
@@ -35,7 +39,10 @@ public class OrderController {
 
         // 使用ribbon实现客户端负载均衡
         // 调用商品微服务
-        Product product = restTemplate.getForObject("http://server-product/product/" + pid, Product.class);
+        // Product product = restTemplate.getForObject("http://server-product/product/" + pid, Product.class);
+
+        // 使用feign的形式调用
+        Product product = productService.findByPid(pid);
 
         log.info("商品信息查询成功,内容为{}", pid, JSON.toJSONString(product));
 

@@ -18,3 +18,9 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+
+# 配置ribbon的负载均衡策略
+# 调用的提供者的名称
+server-product:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule

@@ -1,4 +1,4 @@
-package cn.myfreecloud.filter;
+package cn.myfreecloud.config;
 
 //@Configuration
 //public class FilterContextConfig {

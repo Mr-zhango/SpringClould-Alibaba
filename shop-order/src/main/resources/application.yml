@@ -14,3 +14,7 @@ spring:
         hbm2ddl:
           auto: update
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848

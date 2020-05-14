@@ -27,15 +27,15 @@ public class ExceptionHandlerPage implements UrlBlockHandler {
         response.setContentType("application/json;charset=utf-8");
 
         if(e instanceof FlowException){
-            new ResponseData(-1,"接口被限流了");
+            responseData= new ResponseData(-1,"接口被限流了");
         }else if(e instanceof DegradeException){
-            new ResponseData(-2,"接口被限流了");
+            responseData= new ResponseData(-2,"接口被降级了");
         }else if(e instanceof ParamFlowException){
-            new ResponseData(-2,"参数异常被限流了");
+            responseData= new ResponseData(-3,"参数异常被降级了");
         }else if(e instanceof AuthorityException){
-            new ResponseData(-2,"授权异常被限流了");
+            responseData =  new ResponseData(-4,"授权异常被降级了");
         }else if(e instanceof SystemBlockException){
-            new ResponseData(-2,"系统负载异常被限流了");
+            responseData = new ResponseData(-5,"系统负载异常被降级了");
         }
 
         response.getWriter().write(JSON.toJSONString(responseData));

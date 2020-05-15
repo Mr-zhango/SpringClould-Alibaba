@@ -9,9 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-//@RestController
+@RestController
 public class OrderController2 {
 
 
@@ -32,6 +33,13 @@ public class OrderController2 {
 
         // 使用feign的形式调用
         Product product = productService.findByPid(pid);
+
+        if(product.getPid() == -100){
+            Order order = new Order();
+            order.setOid(-100L);
+            order.setPname("下单失败");
+            return order;
+        }
 
         log.info("商品信息查询成功,内容为{}", pid, JSON.toJSONString(product));
 

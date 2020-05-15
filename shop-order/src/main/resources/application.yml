@@ -32,3 +32,7 @@ spring:
 server-product:
   ribbon:
     NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
+# 开启Fegin对Sentinel的支持
+feign:
+  sentinel:
+    enabled: true

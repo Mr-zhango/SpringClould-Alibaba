@@ -1,0 +1,15 @@
+server:
+  port: 7000
+  tomcat:
+    max-threads: 10
+spring:
+  cloud:
+    gateway:
+      routes: # 路由数组,就是指当请求满足什么样的条件的时候请求妆发到哪个服务上
+        - id: product_router # 路由标识,要求唯一 默认 UUID
+          uri: http://localhost:8081 # 路由最终要被转发的地址
+          order: 1 # 路由优先级,数字越小,优先级越高
+          predicates: # 断言的条件 boolean 转发请求要满足的条件
+            - Path=/product-serv/** # 当请求路径满足Path指定的规则时,此路由信息才会正常转发
+          filters: # 过滤器,在请求传递过程中 操作请求
+            - StripPrefix=1 # 在请求转发之前,去掉一层路径

@@ -16,6 +16,8 @@ spring:
           order: 1 # 路由优先级,数字越小,优先级越高
           predicates: # 断言的条件 boolean 转发请求要满足的条件
             - Path=/product-serv/** # 当请求路径满足Path指定的规则时,此路由信息才会正常转发
+            # - Before=2019-11-28T00:00:00.000+08:00 #限制请求时间在2019-11-28之前
+            # - Method=POST #限制请求方式为POST
           filters: # 过滤器,在请求传递过程中 操作请求
             - StripPrefix=1 # 在请求转发之前,去掉一层路径
     nacos:

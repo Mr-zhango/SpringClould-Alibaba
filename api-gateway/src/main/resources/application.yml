@@ -23,6 +23,14 @@ spring:
             - StripPrefix=1 # 在请求转发之前,去掉一层路径
             #- SetStatus=250
             - Log=true,false
+        - id:
+          uri: order_router
+          order: 1
+          predicates:
+            - Path=/order-serv/**
+          filters:
+            - StripPrefix=1
+
     nacos:
       discovery:
         server-addr: localhost:8848

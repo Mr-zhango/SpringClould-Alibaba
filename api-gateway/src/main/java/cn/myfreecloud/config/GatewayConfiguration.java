@@ -92,24 +92,24 @@ public class GatewayConfiguration {
         GatewayCallbackManager.setBlockHandler(blockRequestHandler);
     }
 
-    //自定义API分组
-    @PostConstruct
-    private void initCustomizedApis() {
-        Set<ApiDefinition> definitions = new HashSet<>();
-        ApiDefinition api1 = new ApiDefinition("product_api1")
-                .setPredicateItems(new HashSet<ApiPredicateItem>() {{
-                    // 以/product-serv/product/api1 开头的请求
-                    add(new ApiPathPredicateItem().setPattern("/product-serv/product/api1/**").
-                            setMatchStrategy(SentinelGatewayConstants.URL_MATCH_STRATEGY_PREFIX));
-                }});
-        ApiDefinition api2 = new ApiDefinition("product_api2")
-                .setPredicateItems(new HashSet<ApiPredicateItem>() {{
-                    // 以/product-serv/product/api2/demo1 完成的url路径匹配
-                    add(new ApiPathPredicateItem().setPattern("/product-serv/product/api2/demo1"));
-                }});
-        definitions.add(api1);
-        definitions.add(api2);
-        GatewayApiDefinitionManager.loadApiDefinitions(definitions);
-    }
+//    //自定义API分组
+//    @PostConstruct
+//    private void initCustomizedApis() {
+//        Set<ApiDefinition> definitions = new HashSet<>();
+//        ApiDefinition api1 = new ApiDefinition("product_api1")
+//                .setPredicateItems(new HashSet<ApiPredicateItem>() {{
+//                    // 以/product-serv/product/api1 开头的请求
+//                    add(new ApiPathPredicateItem().setPattern("/product-serv/product/api1/**").
+//                            setMatchStrategy(SentinelGatewayConstants.URL_MATCH_STRATEGY_PREFIX));
+//                }});
+//        ApiDefinition api2 = new ApiDefinition("product_api2")
+//                .setPredicateItems(new HashSet<ApiPredicateItem>() {{
+//                    // 以/product-serv/product/api2/demo1 完成的url路径匹配
+//                    add(new ApiPathPredicateItem().setPattern("/product-serv/product/api2/demo1"));
+//                }});
+//        definitions.add(api1);
+//        definitions.add(api2);
+//        GatewayApiDefinitionManager.loadApiDefinitions(definitions);
+//    }
 
 }

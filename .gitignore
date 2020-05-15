@@ -9,3 +9,4 @@ target/
 *.iws
 *.iml
 *.ipr
+!/sentinel-dashboard-1.7.0.jar

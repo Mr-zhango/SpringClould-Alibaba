@@ -23,8 +23,8 @@ spring:
             - StripPrefix=1 # 在请求转发之前,去掉一层路径
             #- SetStatus=250
             - Log=true,false
-        - id:
-          uri: order_router
+        - id: order_router
+          uri: lb://server-order
           order: 1
           predicates:
             - Path=/order-serv/**

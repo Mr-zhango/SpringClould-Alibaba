@@ -3,6 +3,14 @@ server:
   tomcat:
     max-threads: 10
 spring:
+  # zipkin
+  zipkin:
+    base-url: http://127.0.0.1:9411
+    discoveryClientEnabled: false
+  sleuth:
+    sampler:
+      probability: 1.0 # 采样百分比
+
   application:
     name: server-order
   datasource:
@@ -10,6 +18,7 @@ spring:
     url: jdbc:mysql:///shop?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: 123456
+
   jpa:
     properties:
       hibernate:

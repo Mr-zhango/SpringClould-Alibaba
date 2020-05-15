@@ -18,8 +18,11 @@ spring:
             - Path=/product-serv/** # 当请求路径满足Path指定的规则时,此路由信息才会正常转发
             # - Before=2019-11-28T00:00:00.000+08:00 #限制请求时间在2019-11-28之前
             # - Method=POST #限制请求方式为POST
+            # - Age=18,60 # 限制年龄只有在18到60岁之间的人能访问
           filters: # 过滤器,在请求传递过程中 操作请求
             - StripPrefix=1 # 在请求转发之前,去掉一层路径
+            #- SetStatus=250
+            - Log=true,false
     nacos:
       discovery:
         server-addr: localhost:8848

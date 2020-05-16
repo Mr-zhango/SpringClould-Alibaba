@@ -43,5 +43,10 @@
             <artifactId>rocketmq-client</artifactId>
             <version>4.4.0</version>
         </dependency>
+        <!--短信-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-alicloud-sms</artifactId>
+        </dependency>
     </dependencies>
 </project>

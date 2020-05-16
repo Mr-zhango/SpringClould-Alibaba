@@ -64,7 +64,7 @@ public class MessageTypeTest {
     @Test
     public void testOneWayOrderly() {
         for (int i = 0; i < 10; i++) {
-            //第三个参数的作用是用来决定这些消息发送到哪个队列的上的
+            //第三个参数的作用是用来决定这些消息发送到哪个队列的上的 不重复就可以
             rocketMQTemplate.sendOneWayOrderly("test-topic-1", "这是一条单向消息", "xx");
         }
     }

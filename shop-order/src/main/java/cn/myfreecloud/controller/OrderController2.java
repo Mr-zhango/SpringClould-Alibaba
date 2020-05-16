@@ -6,6 +6,7 @@ import cn.myfreecloud.feign.ProductService;
 import cn.myfreecloud.service.OrderService;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,9 @@ public class OrderController2 {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private RocketMQTemplate rocketMQTemplate;
 
 
     // 下单
@@ -51,11 +55,13 @@ public class OrderController2 {
         order.setPname(product.getPname());
         order.setPprice(product.getPprice());
         order.setNumber(1);
-        // 防止下单出现垃圾数据
-        //orderService.createOrder(order);
 
-        //log.info("创建订单成功,订单内容为{}", JSON.toJSONString(order));
+        orderService.createOrder(order);
 
+        log.info("创建订单成功,订单内容为{}", JSON.toJSONString(order));
+
+        // 1.执行topic 2. 指定消息体
+        rocketMQTemplate.convertAndSend("order-topic",order);
         return order;
     }
 

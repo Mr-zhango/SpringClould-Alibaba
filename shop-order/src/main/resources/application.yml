@@ -45,3 +45,8 @@ server-product:
 feign:
   sentinel:
     enabled: true
+
+rocketmq:
+  name-server: 192.168.1.10:9876 # MQ服务的地址
+  producer:
+    group: shop-order # 生产者组

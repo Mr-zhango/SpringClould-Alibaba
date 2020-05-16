@@ -7,6 +7,7 @@ import cn.myfreecloud.domain.Product;
 import cn.myfreecloud.feign.ProductService;
 import cn.myfreecloud.service.OrderService;
 import com.alibaba.fastjson.JSON;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ public class OrderServiceImpl6 {
 
 
     // 下单
+    @GlobalTransactional
     public Order createOrder(Integer pid) {
 
         log.info("接收到{}号商品的下单请求", pid);

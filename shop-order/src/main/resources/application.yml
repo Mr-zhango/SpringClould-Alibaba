@@ -12,7 +12,7 @@ spring:
       probability: 1.0 # 采样百分比
 
   application:
-    name: server-order
+    name: service-order
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql:///shop?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false

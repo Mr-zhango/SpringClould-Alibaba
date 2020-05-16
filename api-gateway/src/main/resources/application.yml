@@ -22,7 +22,7 @@ spring:
       routes: # 路由数组,就是指当请求满足什么样的条件的时候请求妆发到哪个服务上
         - id: product_route # 路由标识,要求唯一 默认 UUID
           # uri: http://localhost:8081 # 路由最终要被转发的地址
-          uri: lb://server-product # lb 指负载均衡,后面跟的是具体微服务在 nacos 中的标识
+          uri: lb://service-product # lb 指负载均衡,后面跟的是具体微服务在 nacos 中的标识
           order: 1 # 路由优先级,数字越小,优先级越高
           predicates: # 断言的条件 boolean 转发请求要满足的条件
             - Path=/product-serv/** # 当请求路径满足Path指定的规则时,此路由信息才会正常转发
@@ -34,7 +34,7 @@ spring:
             #- SetStatus=250
             - Log=true,false
         - id: order_route
-          uri: lb://server-order
+          uri: lb://service-order
           order: 1
           predicates:
             - Path=/order-serv/**

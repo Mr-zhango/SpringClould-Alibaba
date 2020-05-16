@@ -4,6 +4,8 @@ import cn.myfreecloud.domain.Order;
 import cn.myfreecloud.domain.Product;
 import cn.myfreecloud.feign.ProductService;
 import cn.myfreecloud.service.OrderService;
+import cn.myfreecloud.service.impl.OrderServiceImpl4;
+import cn.myfreecloud.service.impl.OrderServiceImpl5;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
@@ -13,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-//@RestController
-public class OrderController2 {
+@RestController
+public class OrderController5 {
 
 
     @Autowired
-    private OrderService orderService;
+    private OrderServiceImpl5 orderService;
 
     @Autowired
     private ProductService productService;
@@ -32,13 +34,13 @@ public class OrderController2 {
     public Order order(@PathVariable("pid") Integer pid) throws Exception {
         log.info("接收到{}号商品的下单请求", pid);
 
-       // 模拟调用商品微服务需要2s时间
+        // 模拟调用商品微服务需要2s时间
         Thread.sleep(2000L);
 
         // 使用feign的形式调用
         Product product = productService.findByPid(pid);
 
-        if(product.getPid() == -100){
+        if (product.getPid() == -100) {
             Order order = new Order();
             order.setOid(-100L);
             order.setPname("下单失败");
@@ -56,18 +58,13 @@ public class OrderController2 {
         order.setPprice(product.getPprice());
         order.setNumber(1);
 
-        orderService.createOrder(order);
+        orderService.createOrderHalfTranscation(order);
 
         log.info("创建订单成功,订单内容为{}", JSON.toJSONString(order));
 
         // 1.执行topic 2. 指定消息体
-        rocketMQTemplate.convertAndSend("order-topic",order);
+        rocketMQTemplate.convertAndSend("order-topic", order);
         return order;
     }
 
-    // 高并发测试
-    @RequestMapping("/order/meaasge")
-    public String message() throws Exception {
-        return "高并发测试";
-    }
 }

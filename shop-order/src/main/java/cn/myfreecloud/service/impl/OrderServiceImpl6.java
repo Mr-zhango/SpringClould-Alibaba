@@ -1,26 +1,25 @@
-package cn.myfreecloud.controller;
+package cn.myfreecloud.service.impl;
 
+
+import cn.myfreecloud.dao.OrderDao;
 import cn.myfreecloud.domain.Order;
 import cn.myfreecloud.domain.Product;
 import cn.myfreecloud.feign.ProductService;
 import cn.myfreecloud.service.OrderService;
-import cn.myfreecloud.service.impl.OrderServiceImpl4;
-import cn.myfreecloud.service.impl.OrderServiceImpl5;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-//@RestController
-public class OrderController5 {
-
+@Service
+public class OrderServiceImpl6 {
 
     @Autowired
-    private OrderServiceImpl5 orderService;
+    private OrderDao orderDao;
 
     @Autowired
     private ProductService productService;
@@ -30,22 +29,18 @@ public class OrderController5 {
 
 
     // 下单
-    @RequestMapping("/order/product/{pid}")
-    public Order order(@PathVariable("pid") Integer pid) throws Exception {
+    public Order createOrder(Integer pid) {
+
         log.info("接收到{}号商品的下单请求", pid);
 
-        // 模拟调用商品微服务需要2s时间
-        Thread.sleep(2000L);
+        // List<ServiceInstance> instances = discoveryClient.getInstances("server-product");
+
+        // 使用ribbon实现客户端负载均衡
+        // 调用商品微服务
+        // Product product = restTemplate.getForObject("http://server-product/product/" + pid, Product.class);
 
         // 使用feign的形式调用
         Product product = productService.findByPid(pid);
-
-        if (product.getPid() == -100) {
-            Order order = new Order();
-            order.setOid(-100L);
-            order.setPname("下单失败");
-            return order;
-        }
 
         log.info("商品信息查询成功,内容为{}", pid, JSON.toJSONString(product));
 
@@ -57,13 +52,16 @@ public class OrderController5 {
         order.setPname(product.getPname());
         order.setPprice(product.getPprice());
         order.setNumber(1);
-
-        orderService.createOrderHalfTranscation(order);
+        // 下单
+        orderDao.save(order);
 
         log.info("创建订单成功,订单内容为{}", JSON.toJSONString(order));
 
-        // 1.执行topic 2. 指定消息体
+        // 扣除商品库的库存
+        productService.reduceInventory(pid,order.getNumber());
+
         rocketMQTemplate.convertAndSend("order-topic", order);
+
         return order;
     }
 
